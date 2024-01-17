@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+
+    <title>Document</title>
+  </head>
+  <body>
+    <section class="container">
+      <form action="" id="add">
+        <input type="text" placeholder="New Task.." id="todo-iput" />
+        <button type="submit" id="todo-btn">ADD</button>
+      </form>
+      <div class="list-container">
+        <div class="list" id="do">
+          <h3 class="heading">TODO</h3>
+          <p class="task" draggable="true">JavaScript</p>
+          <p class="task" draggable="true">C#</p>
+          <p class="task" draggable="true">C++</p>
+        </div>
+
+        <div class="list" id="doing">
+            <h3 class="heading">DOING</h3>
+            <p class="task" draggable="true">C</p>
+            
+          </div>
+          <div class="list" id="done">
+            <h3 class="heading">DONE</h3>
+            <p class="task" draggable="true">Math</p>
+            
+          </div>
+      </div>
+      
+    </section>
+
+    <script src="app.js"></script>
+  </body>
+</html>
