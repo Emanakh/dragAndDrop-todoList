@@ -2,7 +2,7 @@ const lists = document.querySelectorAll(".list");
 const tasks = document.querySelectorAll(".task");
 const form = document.querySelector("#add");
 const input = document.querySelector("#todo-input");
-const doList = document.querySelector("#do");
+const todo = document.querySelector("#do");
 const doing = document.querySelector("#doing");
 const done = document.querySelector("#done");
 
@@ -29,69 +29,32 @@ tasks.forEach((task) => {
 
 
 
-doing.addEventListener("dragover", (e, listName) => {
-    e.preventDefault();
+
+doing.addEventListener("dragover", function(event) {
+    drop(event, doing, "doing")} );
+done.addEventListener("dragover",  function(event) {
+    drop(event, done, "done")});
+todo.addEventListener("dragover",  function(event) {
+    drop(event, todo, "do")});
+
+function drop(e, el, state) {
+  e.preventDefault();
+
+
+  updateTask(el, state)
+}
+
+function updateTask(el, state){
     const cursorTask = document.querySelector(".is-dragging");
-    listName.appendChild(cursorTask);
+    el.appendChild(cursorTask);
     const taskToUpdate = taskList.find(
       (task) => task.id === cursorTask.getAttribute("id")
     );
-   if(taskToUpdate){
-      taskToUpdate.status = listName
+    if (taskToUpdate) {
+      taskToUpdate.status = state;
       localStorage.setItem("taskList", JSON.stringify(taskList));
-  
-   }
-  
-  });
-
-
-doing.addEventListener("dragover", (e) => {
-  e.preventDefault();
-  const cursorTask = document.querySelector(".is-dragging");
-  doing.appendChild(cursorTask);
-  const taskToUpdate = taskList.find(
-    (task) => task.id === cursorTask.getAttribute("id")
-  );
- if(taskToUpdate){
-    taskToUpdate.status = "doing"
-    localStorage.setItem("taskList", JSON.stringify(taskList));
-
- }
-
-});
-
-done.addEventListener("dragover", (e) => {
-  e.preventDefault();
-  const cursorTask = document.querySelector(".is-dragging");
-  done.appendChild(cursorTask);
-  const taskToUpdate = taskList.find(
-    (task) => task.id === cursorTask.getAttribute("id")
-  );
- if(taskToUpdate){
-    taskToUpdate.status = "done"
-    localStorage.setItem("taskList", JSON.stringify(taskList));
-
- }
-
-});
-
-doList.addEventListener("dragover", (e) => {
-  e.preventDefault();
-  const cursorTask = document.querySelector(".is-dragging");
-  console.log(cursorTask);
-  doList.appendChild(cursorTask);
-  const taskToUpdate = taskList.find(
-    (task) => task.id === cursorTask.getAttribute("id")
-  );
- if(taskToUpdate){
-    taskToUpdate.status = "do"
-    localStorage.setItem("taskList", JSON.stringify(taskList));
-
- }
-
-  console.log(taskToUpdate);
-});
-
+    }
+}
 //////
 
 //add logic to the do list and to the local storege
@@ -120,7 +83,7 @@ form.addEventListener("submit", (e) => {
     id: random,
   };
   newTaskEl.setAttribute("id", random);
-  doList.appendChild(newTaskEl);
+  todo.appendChild(newTaskEl);
   taskList.push(newTaskItem);
   localStorage.setItem("taskList", JSON.stringify(taskList));
   input.value = "";
