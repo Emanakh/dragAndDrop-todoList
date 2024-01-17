@@ -75,7 +75,7 @@ form.addEventListener("submit", (e) => {
   newTaskEl.appendChild(spanElement);
 
   const deleteButton = document.createElement("img");
-  deleteButton.src = "/icons8-x-48.png";
+  deleteButton.src = "icons8-x-48.png";
   deleteButton.alt = "Close";
   deleteButton.classList.add("close-btn");
   deleteButton.onclick = function () {
