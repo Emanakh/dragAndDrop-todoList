@@ -10,10 +10,11 @@ const done = document.querySelector("#done");
 let taskList;
 if (localStorage.taskList != null) {
   taskList = JSON.parse(localStorage.taskList);
-  DisplayTasks();
+  // DisplayTasks();
 } else {
   taskList = [];
 }
+displayTasks();
 
 //dragging and droping logic
 tasks.forEach((task) => {
@@ -46,6 +47,8 @@ function drop(e, el, state) {
 
 function updateTask(el, state) {
   const cursorTask = document.querySelector(".is-dragging");
+  console.log(cursorTask);
+
   el.appendChild(cursorTask);
   const taskToUpdate = taskList.find(
     (task) => task.id === cursorTask.getAttribute("id")
@@ -58,32 +61,79 @@ function updateTask(el, state) {
 //////
 
 //add logic to the do list and to the local storege
+// form.addEventListener("submit", (e) => {
+//   e.preventDefault();
+//   const newTask = input.value;
+
+//   if (!newTask) return;
+
+//   const newTaskEl = document.createElement("p");
+//   newTaskEl.classList.add("task");
+
+//   newTaskEl.setAttribute("draggable", "true");
+//   newTaskEl.innerHTML = newTask;
+//   newTaskEl.addEventListener("dragstart", () => {
+//     newTaskEl.classList.add("is-dragging");
+//   });
+//   newTaskEl.addEventListener("dragend", () => {
+//     newTaskEl.classList.remove("is-dragging");
+//   });
+//   let random = generateRandomId();
+//   //add to local storege
+//   let newTaskItem = {
+//     taskName: newTask,
+//     status: "do",
+//     id: random,
+//   };
+//   newTaskEl.setAttribute("id", random);
+//   todo.appendChild(newTaskEl);
+//   taskList.push(newTaskItem);
+//   localStorage.setItem("taskList", JSON.stringify(taskList));
+//   input.value = "";
+// });
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const newTask = input.value;
 
   if (!newTask) return;
 
-  const newTaskEl = document.createElement("p");
+  const newTaskEl = document.createElement("div");
   newTaskEl.classList.add("task");
+  newTaskEl.draggable = true;
 
-  newTaskEl.setAttribute("draggable", "true");
-  newTaskEl.innerHTML = newTask;
+  const spanElement = document.createElement("span");
+  spanElement.textContent = newTask;
+  newTaskEl.appendChild(spanElement);
+
+  const deleteButton = document.createElement("img");
+  deleteButton.src = "/icons8-x-48.png";
+  deleteButton.alt = "Close";
+  deleteButton.classList.add("close-btn");
+  deleteButton.onclick = function () {
+    deleteTask(this);
+  };
+  newTaskEl.appendChild(deleteButton);
+
   newTaskEl.addEventListener("dragstart", () => {
     newTaskEl.classList.add("is-dragging");
   });
   newTaskEl.addEventListener("dragend", () => {
     newTaskEl.classList.remove("is-dragging");
   });
+
   let random = generateRandomId();
-  //add to local storege
+  // add to local storage
   let newTaskItem = {
     taskName: newTask,
-    status: "do",
+    status: "doing",
     id: random,
   };
   newTaskEl.setAttribute("id", random);
+  console.log(newTaskEl);
+
   todo.appendChild(newTaskEl);
+  // Assuming you have initialized taskList somewhere in your code
   taskList.push(newTaskItem);
   localStorage.setItem("taskList", JSON.stringify(taskList));
   input.value = "";
@@ -99,28 +149,105 @@ function generateRandomId() {
   return randomId;
 }
 
-function DisplayTasks() {
-  done.innerHTML = "";
+function displayTasks() {
+  const storedTasksString = localStorage.getItem("taskList");
 
-  taskList.forEach((task) => {
-    const taskel = document.createElement("p");
-    taskel.classList.add("task");
-    taskel.setAttribute("draggable", "true");
-    taskel.setAttribute("id", task.id);
-    taskel.innerHTML = task.taskName;
-    taskel.addEventListener("dragstart", () => {
-      taskel.classList.add("is-dragging");
+  if (storedTasksString) {
+    const tasks = JSON.parse(storedTasksString);
+
+    // Clear existing content
+    // const todo = document.getElementById('todo');
+    // const doing = document.getElementById('doing');
+    // const done = document.getElementById('done');
+    // todo.innerHTML = '';
+    // doing.innerHTML = '';
+    // done.innerHTML = '';
+
+    tasks.forEach((task) => {
+      const taskEl = document.createElement("div");
+      taskEl.classList.add("task");
+      taskEl.draggable = true;
+
+      const spanElement = document.createElement("span");
+      spanElement.textContent = task.taskName;
+      taskEl.appendChild(spanElement);
+
+      const deleteButton = document.createElement("img");
+      deleteButton.src = "/icons8-x-48.png";
+      deleteButton.alt = "Close";
+      deleteButton.classList.add("close-btn");
+      deleteButton.onclick = function () {
+        deleteTask(this);
+      };
+      taskEl.appendChild(deleteButton);
+
+      taskEl.setAttribute("id", task.id);
+      taskEl.addEventListener("dragstart", () => {
+        taskEl.classList.add("is-dragging");
+      });
+      taskEl.addEventListener("dragend", () => {
+        taskEl.classList.remove("is-dragging");
+      });
+
+      if (task.status === "done") {
+        done.appendChild(taskEl);
+      } else if (task.status === "doing") {
+        doing.appendChild(taskEl);
+      } else if (task.status === "do") {
+        todo.appendChild(taskEl);
+      }
     });
-    taskel.addEventListener("dragend", () => {
-      taskel.classList.remove("is-dragging");
-    });
-    if (task.status == "done") {
-      done.appendChild(taskel);
-    } else if (task.status == "doing") {
-      doing.appendChild(taskel);
-    } else if (task.status == "do") {
-      todo.appendChild(taskel);
-    }
-  });
+  } else {
+    console.log("No tasks found");
+  }
 }
+
+// function DisplayTasks() {
+//   const storedTasksString = localStorage.getItem('taskList');
+
+//   if (storedTasksString) {
+//     const taskss = JSON.parse(storedTasksString);
+
+//     const tasksP = document.querySelectorAll("p");
+//     tasksP.innerHTML = "";
+//     taskss.forEach((task) => {
+//       tasksP.innerHTML = "";
+//       const taskel = document.createElement("p");
+//       taskel.classList.add("task");
+//       taskel.setAttribute("draggable", "true");
+//       taskel.setAttribute("id", task.id);
+//       taskel.innerHTML = task.taskName;
+//       taskel.addEventListener("dragstart", () => {
+//         taskel.classList.add("is-dragging");
+//       });
+//       taskel.addEventListener("dragend", () => {
+//         taskel.classList.remove("is-dragging");
+//       });
+//       if (task.status == "done") {
+//         done.appendChild(taskel);
+//       } else if (task.status == "doing") {
+//         doing.appendChild(taskel);
+//       } else if (task.status == "do") {
+//         todo.appendChild(taskel);
+//       }
+//     });
+//   } else console.log("no tasks found");
+// }
 ////
+
+
+function deleteTask(buttonElement) {
+  const taskElement = buttonElement.parentNode;
+  const taskText = taskElement.querySelector("span").textContent;
+
+  // Remove from local storage
+  removeFromLocalStorage(taskText);
+
+  taskElement.remove();
+}
+
+function removeFromLocalStorage(taskText) {
+  const tasks = JSON.parse(localStorage.getItem("taskList")) || [];
+  const updatedTasks = tasks.filter((task) => task.taskName !== taskText);
+  localStorage.setItem("taskList", JSON.stringify(updatedTasks));
+}
