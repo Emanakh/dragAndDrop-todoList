@@ -60,7 +60,6 @@ function updateTask(el, state) {
 }
 //////
 
-
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const newTask = input.value;
@@ -102,7 +101,7 @@ form.addEventListener("submit", (e) => {
   console.log(newTaskEl);
 
   todo.appendChild(newTaskEl);
- 
+
   taskList.push(newTaskItem);
   localStorage.setItem("taskList", JSON.stringify(taskList));
   input.value = "";
@@ -123,10 +122,9 @@ function displayTasks() {
 
   if (storedTasksString) {
     const tasks = JSON.parse(storedTasksString);
-clearContent(todo);
-clearContent(done);
-clearContent(doing)
-
+    clearContent(todo);
+    clearContent(done);
+    clearContent(doing);
 
     tasks.forEach((task) => {
       const taskEl = document.createElement("div");
@@ -138,7 +136,7 @@ clearContent(doing)
       taskEl.appendChild(spanElement);
 
       const deleteButton = document.createElement("img");
-      deleteButton.src = "/icons8-x-48.png";
+      deleteButton.src = "icons8-x-48.png";
       deleteButton.alt = "Close";
       deleteButton.classList.add("close-btn");
       deleteButton.onclick = function () {
@@ -169,7 +167,6 @@ clearContent(doing)
 
 ////
 
-
 function deleteTask(buttonElement) {
   const taskElement = buttonElement.parentNode;
   const taskText = taskElement.querySelector("span").textContent;
@@ -185,9 +182,8 @@ function removeFromLocalStorage(taskText) {
   localStorage.setItem("taskList", JSON.stringify(updatedTasks));
 }
 
-
 function reset() {
-  localStorage.removeItem('taskList');
+  localStorage.removeItem("taskList");
 
   clearContent(todo);
   clearContent(doing);
@@ -201,4 +197,3 @@ function clearContent(element) {
     }
   }
 }
-
