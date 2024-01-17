@@ -10,6 +10,7 @@ const done = document.querySelector("#done");
 let taskList;
 if (localStorage.taskList != null) {
   taskList = JSON.parse(localStorage.taskList);
+  DisplayTasks();
 } else {
   taskList = [];
 }
@@ -27,33 +28,32 @@ tasks.forEach((task) => {
   });
 });
 
-
-
-
-doing.addEventListener("dragover", function(event) {
-    drop(event, doing, "doing")} );
-done.addEventListener("dragover",  function(event) {
-    drop(event, done, "done")});
-todo.addEventListener("dragover",  function(event) {
-    drop(event, todo, "do")});
+doing.addEventListener("dragover", function (event) {
+  drop(event, doing, "doing");
+});
+done.addEventListener("dragover", function (event) {
+  drop(event, done, "done");
+});
+todo.addEventListener("dragover", function (event) {
+  drop(event, todo, "do");
+});
 
 function drop(e, el, state) {
   e.preventDefault();
 
-
-  updateTask(el, state)
+  updateTask(el, state);
 }
 
-function updateTask(el, state){
-    const cursorTask = document.querySelector(".is-dragging");
-    el.appendChild(cursorTask);
-    const taskToUpdate = taskList.find(
-      (task) => task.id === cursorTask.getAttribute("id")
-    );
-    if (taskToUpdate) {
-      taskToUpdate.status = state;
-      localStorage.setItem("taskList", JSON.stringify(taskList));
-    }
+function updateTask(el, state) {
+  const cursorTask = document.querySelector(".is-dragging");
+  el.appendChild(cursorTask);
+  const taskToUpdate = taskList.find(
+    (task) => task.id === cursorTask.getAttribute("id")
+  );
+  if (taskToUpdate) {
+    taskToUpdate.status = state;
+    localStorage.setItem("taskList", JSON.stringify(taskList));
+  }
 }
 //////
 
@@ -97,5 +97,30 @@ function generateRandomId() {
   const randomId = "id" + randomHex;
 
   return randomId;
+}
+
+function DisplayTasks() {
+  done.innerHTML = "";
+
+  taskList.forEach((task) => {
+    const taskel = document.createElement("p");
+    taskel.classList.add("task");
+    taskel.setAttribute("draggable", "true");
+    taskel.setAttribute("id", task.id);
+    taskel.innerHTML = task.taskName;
+    taskel.addEventListener("dragstart", () => {
+      taskel.classList.add("is-dragging");
+    });
+    taskel.addEventListener("dragend", () => {
+      taskel.classList.remove("is-dragging");
+    });
+    if (task.status == "done") {
+      done.appendChild(taskel);
+    } else if (task.status == "doing") {
+      doing.appendChild(taskel);
+    } else if (task.status == "do") {
+      todo.appendChild(taskel);
+    }
+  });
 }
 ////
