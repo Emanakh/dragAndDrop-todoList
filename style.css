@@ -36,8 +36,6 @@ body {
   border-radius: var(--radius);
 }
 
-
-
 .btn {
   width: 100%;
   margin-top: 10px;
@@ -101,8 +99,16 @@ body {
   cursor: pointer;
 }
 
-
 .task.is-dragging {
   background-color: white;
   color: rgb(150, 10, 10);
+}
+
+@media (max-width: 767px) {
+  .list-container {
+    display: flex;
+    flex-direction: column; /* or row, depending on your design */
+    justify-content: center; /* align items vertically in the center */
+    align-items: center; /* align items horizontally in the center */
+  }
 }
