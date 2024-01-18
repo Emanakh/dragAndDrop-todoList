@@ -107,8 +107,8 @@ body {
 @media (max-width: 767px) {
   .list-container {
     display: flex;
-    flex-direction: column; /* or row, depending on your design */
-    justify-content: center; /* align items vertically in the center */
-    align-items: center; /* align items horizontally in the center */
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
   }
 }
