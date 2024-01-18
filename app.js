@@ -10,7 +10,6 @@ const done = document.querySelector("#done");
 let taskList;
 if (localStorage.taskList != null) {
   taskList = JSON.parse(localStorage.taskList);
-  // DisplayTasks();
 } else {
   taskList = [];
 }
@@ -60,6 +59,22 @@ function updateTask(el, state) {
 }
 //////
 
+function reset() {
+  // Clear local storage
+taskList= []
+  localStorage.setItem("taskList", JSON.stringify(taskList));
+  console.log("removed");
+  
+console.log(taskList);
+
+  // Clear content of HTML elements
+  clearContent(document.getElementById("do"));
+  clearContent(document.getElementById("doing"));
+  clearContent(document.getElementById("done"));
+
+  // Display tasks
+}
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const newTask = input.value;
@@ -103,7 +118,10 @@ form.addEventListener("submit", (e) => {
   todo.appendChild(newTaskEl);
 
   taskList.push(newTaskItem);
+  console.log(taskList);
   localStorage.setItem("taskList", JSON.stringify(taskList));
+  console.log(taskList);
+  
   input.value = "";
 });
 
@@ -165,29 +183,43 @@ function displayTasks() {
   }
 }
 
-////
+// ////
 
 function deleteTask(buttonElement) {
   const taskElement = buttonElement.parentNode;
   const taskText = taskElement.querySelector("span").textContent;
+let iid = buttonElement.parentNode.getAttribute("id")
+console.log(iid);
 
-  removeFromLocalStorage(taskText);
+  removeFromLocalStorage(iid);
 
   taskElement.remove();
 }
 
-function removeFromLocalStorage(taskText) {
-  const tasks = JSON.parse(localStorage.getItem("taskList")) || [];
-  const updatedTasks = tasks.filter((task) => task.taskName !== taskText);
-  localStorage.setItem("taskList", JSON.stringify(updatedTasks));
+function removeFromLocalStorage(iid) {
+console.log(taskList);
+
+   taskList = JSON.parse(localStorage.getItem("taskList")) || [];
+   taskList = taskList.filter((task) => task.id !== iid);
+  localStorage.setItem("taskList", JSON.stringify(taskList));
+  console.log(taskList);
+  
 }
 
 function reset() {
-  localStorage.removeItem("taskList");
+  // Clear local storage
+taskList= []
+  localStorage.setItem("taskList", JSON.stringify(taskList));
+  console.log("removed");
+  
+console.log(taskList);
 
-  clearContent(todo);
-  clearContent(doing);
-  clearContent(done);
+  // Clear content of HTML elements
+  clearContent(document.getElementById("do"));
+  clearContent(document.getElementById("doing"));
+  clearContent(document.getElementById("done"));
+
+  // Display tasks
 }
 
 function clearContent(element) {
