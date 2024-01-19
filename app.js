@@ -61,11 +61,11 @@ function updateTask(el, state) {
 
 function reset() {
   // Clear local storage
-taskList= []
+  taskList = [];
   localStorage.setItem("taskList", JSON.stringify(taskList));
   console.log("removed");
-  
-console.log(taskList);
+
+  console.log(taskList);
 
   // Clear content of HTML elements
   clearContent(document.getElementById("do"));
@@ -121,7 +121,7 @@ form.addEventListener("submit", (e) => {
   console.log(taskList);
   localStorage.setItem("taskList", JSON.stringify(taskList));
   console.log(taskList);
-  
+
   input.value = "";
 });
 
@@ -188,8 +188,8 @@ function displayTasks() {
 function deleteTask(buttonElement) {
   const taskElement = buttonElement.parentNode;
   const taskText = taskElement.querySelector("span").textContent;
-let iid = buttonElement.parentNode.getAttribute("id")
-console.log(iid);
+  let iid = buttonElement.parentNode.getAttribute("id");
+  console.log(iid);
 
   removeFromLocalStorage(iid);
 
@@ -197,22 +197,21 @@ console.log(iid);
 }
 
 function removeFromLocalStorage(iid) {
-console.log(taskList);
+  console.log(taskList);
 
-   taskList = JSON.parse(localStorage.getItem("taskList")) || [];
-   taskList = taskList.filter((task) => task.id !== iid);
+  taskList = JSON.parse(localStorage.getItem("taskList")) || [];
+  taskList = taskList.filter((task) => task.id !== iid);
   localStorage.setItem("taskList", JSON.stringify(taskList));
   console.log(taskList);
-  
 }
 
 function reset() {
   // Clear local storage
-taskList= []
+  taskList = [];
   localStorage.setItem("taskList", JSON.stringify(taskList));
   console.log("removed");
-  
-console.log(taskList);
+
+  console.log(taskList);
 
   // Clear content of HTML elements
   clearContent(document.getElementById("do"));
