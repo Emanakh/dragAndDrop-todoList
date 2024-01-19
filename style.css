@@ -81,7 +81,7 @@ body {
   border-radius: var(--radius);
   padding: 7px;
   color: white;
-  background-color: rgba(150, 10, 10, 0.794);
+  background-color: rgb(150 10 10 / 73%);
   margin: 5px;
   margin-top: 10px;
   cursor: move;
@@ -108,8 +108,8 @@ body {
 @media (max-width: 767px) {
   .list-container {
     display: flex;
-    flex-direction: column; 
-    justify-content: center; 
-    align-items: center; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 }
